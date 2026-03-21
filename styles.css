@@ -1,12 +1,14 @@
 /* 基本設定と変数 */
 :root {
-    --bg-dark: #090b14;
+    --bg-dark: #0a0b1a;
     --text-primary: #ffffff;
-    --text-secondary: #94a3b8;
-    --card-bg: rgba(20, 25, 40, 0.4);
-    --card-border: rgba(255, 255, 255, 0.1);
-    --accent-sleep: #8b5cf6;
-    --accent-meeting: #06b6d4;
+    --text-secondary: #b8c5d6;
+    --card-bg: rgba(25, 30, 50, 0.6);
+    --card-border: rgba(255, 255, 255, 0.15);
+    --accent-sleep: #a855f7;
+    --accent-meeting: #00d4ff;
+    --glow-primary: #ff6b6b;
+    --glow-secondary: #4ecdc4;
 }
 
 * {
@@ -81,6 +83,38 @@ a {
     100% { transform: translateY(-40px) scale(1.1); }
 }
 
+/* 星のパーティクル */
+.stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.star {
+    position: absolute;
+    background: #ffffff;
+    border-radius: 50%;
+    animation: twinkle 3s infinite ease-in-out;
+}
+
+.star:nth-child(1) { width: 2px; height: 2px; top: 10%; left: 20%; animation-delay: 0s; }
+.star:nth-child(2) { width: 1px; height: 1px; top: 30%; left: 70%; animation-delay: 1s; }
+.star:nth-child(3) { width: 3px; height: 3px; top: 50%; left: 10%; animation-delay: 2s; }
+.star:nth-child(4) { width: 1px; height: 1px; top: 70%; left: 80%; animation-delay: 0.5s; }
+.star:nth-child(5) { width: 2px; height: 2px; top: 20%; left: 90%; animation-delay: 1.5s; }
+.star:nth-child(6) { width: 1px; height: 1px; top: 80%; left: 30%; animation-delay: 2.5s; }
+.star:nth-child(7) { width: 2px; height: 2px; top: 40%; left: 50%; animation-delay: 0.8s; }
+.star:nth-child(8) { width: 1px; height: 1px; top: 60%; left: 15%; animation-delay: 1.2s; }
+.star:nth-child(9) { width: 3px; height: 3px; top: 90%; left: 60%; animation-delay: 1.8s; }
+.star:nth-child(10) { width: 1px; height: 1px; top: 15%; left: 40%; animation-delay: 2.2s; }
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.2); }
+}
+
 /* メインコンテナ */
 .main-container {
     max-width: 1000px;
@@ -98,14 +132,22 @@ a {
 }
 
 .page-title {
-    font-size: 3rem;
-    font-weight: 800;
-    letter-spacing: -1px;
+    font-size: 3.5rem;
+    font-weight: 900;
+    letter-spacing: -2px;
     margin-bottom: 16px;
-    background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #00d4ff 30%, #a855f7 60%, #ff6b6b 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-size: 300% 300%;
+    animation: gradientShift 4s ease-in-out infinite;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+}
+
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
 }
 
 .page-subtitle {
@@ -126,40 +168,47 @@ a {
     position: relative;
     background: var(--card-bg);
     border: 1px solid var(--card-border);
-    border-radius: 24px;
+    border-radius: 28px;
     padding: 40px;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
     display: flex;
     flex-direction: column;
     text-align: left;
-    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
     overflow: hidden;
     cursor: pointer;
+    transform-style: preserve-3d;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .card-glow {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 100%;
-    height: 100%;
+    width: 120%;
+    height: 120%;
     transform: translate(-50%, -50%);
-    background: radial-gradient(circle at center, rgba(255,255,255,0.05) 0%, transparent 60%);
+    background: radial-gradient(circle at center, rgba(255,255,255,0.08) 0%, transparent 70%);
     opacity: 0;
-    transition: opacity 0.5s ease;
+    transition: all 0.6s ease;
     z-index: 0;
     pointer-events: none;
+    border-radius: 28px;
 }
 
 .app-card:hover {
-    transform: translateY(-8px);
-    border-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
+    transform: translateY(-12px) rotateX(5deg) rotateY(-5deg);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.5), 
+        0 0 0 1px rgba(255, 255, 255, 0.2),
+        0 0 40px rgba(168, 85, 247, 0.2);
 }
 
 .app-card:hover .card-glow {
     opacity: 1;
+    transform: translate(-50%, -50%) scale(1.1);
 }
 
 /* カードコンテンツ */
@@ -173,29 +222,48 @@ a {
 
 /* アイコン */
 .app-icon {
-    width: 64px;
-    height: 64px;
-    border-radius: 16px;
+    width: 72px;
+    height: 72px;
+    border-radius: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 24px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.4), 0 0 20px rgba(168, 85, 247, 0.3);
+    position: relative;
+    overflow: hidden;
 }
 
 .icon-sleep {
-    background: linear-gradient(135deg, #6366f1, #a855f7);
+    background: linear-gradient(135deg, #6366f1, #a855f7, #ff6b6b);
     color: white;
 }
 
 .icon-meeting {
-    background: linear-gradient(135deg, #06b6d4, #3b82f6);
+    background: linear-gradient(135deg, #00d4ff, #3b82f6, #4ecdc4);
     color: #fff;
 }
 
+.app-icon::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.6s;
+}
+
+.app-card:hover .app-icon::before {
+    left: 100%;
+}
+
 .app-icon svg {
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
+    position: relative;
+    z-index: 1;
 }
 
 /* テキスト */
@@ -221,7 +289,23 @@ a {
     display: flex;
     align-items: center;
     gap: 8px;
-    transition: color 0.3s;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.app-link-text::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: currentColor;
+    transition: width 0.3s ease;
+}
+
+.app-card:hover .app-link-text::after {
+    width: 100%;
 }
 
 /* 色分けされたリンクホバー */
@@ -231,13 +315,13 @@ a {
 /* 出現アニメーション */
 .reveal {
     opacity: 0;
-    transform: translateY(30px);
-    transition: all 1s cubic-bezier(0.25, 1, 0.5, 1);
+    transform: translateY(50px) rotateX(10deg);
+    transition: all 1.2s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .reveal.active {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) rotateX(0deg);
 }
 
 /* フッター */
